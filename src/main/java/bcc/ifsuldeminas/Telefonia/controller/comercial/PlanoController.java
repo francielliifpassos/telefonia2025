@@ -2,10 +2,13 @@ package bcc.ifsuldeminas.Telefonia.controller.comercial;
 
 import bcc.ifsuldeminas.Telefonia.model.entities.comercial.Plano;
 import bcc.ifsuldeminas.Telefonia.model.repositories.comercial.PlanoRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/plano")
@@ -25,11 +28,14 @@ public class PlanoController {
     }
 
     @GetMapping("/{id}")
-    public Plano get(@PathVariable Long id){
+    public ResponseEntity<Plano> get(@PathVariable Long id){
         //buscando um plano pelo id informado
-        Plano plano = planoRepository.getById(id);
+        Plano plano = getById(id);
+        if(plano == null){
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         //a implementar: tratamento de erros
-        return plano;
+        return new ResponseEntity<>(plano, HttpStatus.OK);
     }
 
     @GetMapping
@@ -40,20 +46,36 @@ public class PlanoController {
     }
 
     @PutMapping("/{id}")
-    public Plano update(@PathVariable Long id, @RequestBody Plano plano){
+    public ResponseEntity<Plano> update(@PathVariable Long id, @RequestBody Plano plano){
         //obtendo o plano pelo id informado
-        Plano planoCadastrado = planoRepository.getById(id);
+        Plano planoCadastrado = getById(id);
+        if(planoCadastrado == null){
+            return new ResponseEntity<Plano>(HttpStatus.NOT_FOUND);
+        }
         //atualizando os dados do plano
         planoCadastrado.setNome(plano.getNome());
         planoCadastrado.setValorPorMinuto(plano.getValorPorMinuto());
         //persistindo as alteracoes
         planoRepository.save(planoCadastrado);
         //a implementar: tratamento de erros
-        return planoCadastrado;
+        return new ResponseEntity<Plano>(planoCadastrado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id){
+        if(!planoRepository.existsById(id)){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
         planoRepository.deleteById(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    private Plano getById(long id){
+        Optional<Plano> opt = planoRepository.findById(id);
+        //se a busca nao retornou um plano...
+        if(!opt.isPresent()){
+            return null;
+        }
+        return opt.get();
     }
 }
