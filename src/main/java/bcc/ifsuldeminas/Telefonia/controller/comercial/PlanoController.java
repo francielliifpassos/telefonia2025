@@ -28,12 +28,8 @@ public class PlanoController {
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id){
-        try {
-            Plano plano = planoService.get(id);
-            return new ResponseEntity(plano, HttpStatus.OK);
-        } catch(PlanoNotFoundException pnfe){
-            return new ResponseEntity(pnfe.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        Plano plano = planoService.get(id);
+        return new ResponseEntity(plano, HttpStatus.OK);
     }
 
     @GetMapping
@@ -45,22 +41,13 @@ public class PlanoController {
 
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid Plano plano){
-        try {
-            Plano planoAtualizado = planoService.update(id, plano);
-            return new ResponseEntity(planoAtualizado, HttpStatus.OK);
-        } catch(PlanoNotFoundException pnfe){
-            return new ResponseEntity(pnfe.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        Plano planoAtualizado = planoService.update(id, plano);
+        return new ResponseEntity(planoAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id){
-        try {
-            planoService.delete(id);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } catch(PlanoNotFoundException pnfe){
-            return new ResponseEntity(pnfe.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        planoService.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
 }
