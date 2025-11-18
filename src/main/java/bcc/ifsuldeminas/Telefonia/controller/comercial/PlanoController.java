@@ -2,6 +2,7 @@ package bcc.ifsuldeminas.Telefonia.controller.comercial;
 
 import bcc.ifsuldeminas.Telefonia.model.entities.comercial.Plano;
 import bcc.ifsuldeminas.Telefonia.model.repositories.comercial.PlanoRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class PlanoController {
     }
 
     @PostMapping
-    public Plano create(@RequestBody Plano plano){
+    public Plano create(@RequestBody @Valid Plano plano){
         //persistindo os dados do plano no banco
         planoRepository.save(plano);
         return plano;
@@ -46,7 +47,7 @@ public class PlanoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Plano> update(@PathVariable Long id, @RequestBody Plano plano){
+    public ResponseEntity<Plano> update(@PathVariable Long id, @RequestBody @Valid Plano plano){
         //obtendo o plano pelo id informado
         Plano planoCadastrado = getById(id);
         if(planoCadastrado == null){

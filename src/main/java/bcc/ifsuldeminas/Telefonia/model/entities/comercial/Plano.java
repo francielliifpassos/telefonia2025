@@ -4,13 +4,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Plano {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    //null e´ diferente de "" (string vazia)
+    @NotNull
+    @NotBlank
     private String nome;
+    @NotNull
+    @DecimalMin(value="1.49")
     private double valorPorMinuto;
     //Se fosse bidirecional o relacionamento Operadora-Plano:
     //@ManyToOne
