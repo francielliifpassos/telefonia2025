@@ -1,6 +1,7 @@
 package bcc.ifsuldeminas.Telefonia.controller.comercial;
 
 import bcc.ifsuldeminas.Telefonia.exceptions.comercial.PlanoNotFoundException;
+import bcc.ifsuldeminas.Telefonia.model.entities.Operadora;
 import bcc.ifsuldeminas.Telefonia.model.entities.comercial.Plano;
 import bcc.ifsuldeminas.Telefonia.model.services.comercial.PlanoService;
 import jakarta.validation.Valid;
@@ -21,8 +22,8 @@ public class PlanoController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid Plano plano){
-        plano = planoService.create(plano);
+    public ResponseEntity create(@RequestBody @Valid Plano plano, @RequestParam("operadoraId") Long operadoraId){
+        plano = planoService.create(plano, operadoraId);
         return new ResponseEntity<Plano>(plano, HttpStatus.CREATED);
     }
 
