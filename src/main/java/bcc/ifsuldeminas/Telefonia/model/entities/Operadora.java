@@ -23,8 +23,7 @@ public class Operadora {
     @OneToMany
     @JoinColumn(name = "operadora_id")
     private List<Celular> celulares;
-    @OneToMany
-    @JoinColumn(name = "operadora_id")
+    @OneToMany(mappedBy = "operadora")
     private List<Plano> planos;
 
     public Operadora(){

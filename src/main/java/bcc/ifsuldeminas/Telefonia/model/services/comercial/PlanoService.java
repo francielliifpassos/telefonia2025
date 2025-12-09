@@ -22,10 +22,9 @@ public class PlanoService {
         this.operadoraService = operadoraService;
     }
 
-    public Plano create(Plano plano, Long operadoraId){
-        Operadora operadora = operadoraService.get(operadoraId);
+    public Plano create(Plano plano){
+        plano.setOperadora(operadoraService.get(plano.getOperadora().getId()));
         planoRepository.save(plano);
-        operadoraService.addPlano(operadora, plano);
         return plano;
     }
 

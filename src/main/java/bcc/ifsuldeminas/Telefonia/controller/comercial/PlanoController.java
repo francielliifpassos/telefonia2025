@@ -22,8 +22,8 @@ public class PlanoController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid Plano plano, @RequestParam("operadoraId") Long operadoraId){
-        plano = planoService.create(plano, operadoraId);
+    public ResponseEntity create(@RequestBody @Valid Plano plano){
+        plano = planoService.create(plano);
         return new ResponseEntity<Plano>(plano, HttpStatus.CREATED);
     }
 
